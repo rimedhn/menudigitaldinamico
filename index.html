@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos de Pizza</title>
+    <link id="favicon" rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-red-600 text-white py-4 mb-6">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-center space-x-4">
+                <div id="logo-container" class="hidden">
+                    <img id="logo-negocio" src="" alt="Logo" class="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover">
+                </div>
+                <div class="text-center">
+                    <h1 class="text-2xl md:text-3xl font-bold">🍕 Pizzería Deliciosa</h1>
+                    <p class="mt-2 text-red-100">Los mejores sabores para ti</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+        <!-- Carrusel de Promociones -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">🎉 Promociones Especiales</h2>
+            <div class="relative overflow-hidden rounded-lg">
+                <div id="carrusel-promociones" class="flex transition-transform duration-500 ease-in-out">
+                    <!-- Las promociones se cargarán dinámicamente -->
+                </div>
+                
+                <!-- Controles del carrusel -->
+                <button onclick="cambiarSlide(-1)" class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition duration-300">
+                    &#8249;
+                </button>
+                <button onclick="cambiarSlide(1)" class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition duration-300">
+                    &#8250;
+                </button>
+                
+                <!-- Indicadores -->
+                <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                    <!-- Los indicadores se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Filtros de categorías -->
+        <div class="mb-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Categorías</h2>
+            <div class="flex flex-wrap gap-2">
+                <!-- Las categorías se cargarán dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Grid de productos -->
+        <div id="productos-container">
+            <!-- Los productos se cargarán dinámicamente organizados por categorías -->
+        </div>
+    </div>
+
+    <!-- Botones flotantes -->
+    <!-- Botón del carrito -->
+    <button id="carrito-flotante" onclick="abrirModal()" class="fixed bottom-20 right-4 bg-red-600 text-white p-4 rounded-full shadow-lg hover:bg-red-700 transition duration-300 z-40 hidden">
+        <div class="relative">
+            🛒
+            <span id="contador-carrito" class="absolute -top-5 -right-5 bg-yellow-400 text-black text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">0</span>
+        </div>
+    </button>
+
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/50493593126?text=¡Hola! Me gustaría hacer un pedido" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-40">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+        </svg>
+    </a>
+
+    <!-- Modal del carrito -->
+    <div id="modal-carrito" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] flex flex-col">
+                <!-- Header del modal -->
+                <div class="bg-red-600 text-white p-3 flex justify-between items-center flex-shrink-0">
+                    <h3 class="text-lg font-bold">🛒 Tu Pedido</h3>
+                    <div class="flex items-center space-x-2">
+                        <button onclick="vaciarCarrito()" class="bg-red-700 hover:bg-red-800 px-3 py-1 rounded text-sm transition duration-300">
+                            Vaciar
+                        </button>
+                        <button onclick="cerrarModal()" class="bg-red-700 hover:bg-red-800 px-3 py-1 rounded text-sm transition duration-300">
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Contenido del carrito (scrollable) -->
+                <div class="p-4 flex-1 overflow-y-auto">
+                    <div id="items-carrito-modal" class="space-y-3 mb-4"></div>
+                    <div id="carrito-vacio" class="text-center py-8 text-gray-500">
+                        Tu carrito está vacío
+                    </div>
+                </div>
+                
+                <!-- Footer del modal (fixed) -->
+                <div id="footer-carrito" class="border-t p-3 flex-shrink-0 hidden">
+                    <div class="flex justify-between items-center text-base font-bold mb-3">
+                        <span>Total:</span>
+                        <span id="total-carrito-modal">LPS. 0.00</span>
+                    </div>
+                    
+                    <!-- Formulario de datos del cliente -->
+                    <div class="mb-3 space-y-2">
+                        <!-- Tipo de pedido -->
+                        <select id="tipo-pedido" onchange="actualizarCamposFormulario()" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                            <option value="domicilio">🚚 Envío a domicilio</option>
+                            <option value="llevar">🥡 Para llevar</option>
+                            <option value="restaurante">🍽️ Comer en restaurante</option>
+                        </select>
+                        
+                        <!-- Nombre (siempre obligatorio) -->
+                        <input type="text" id="nombre-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Tu nombre completo *">
+                        
+                        <!-- Teléfono (obligatorio para domicilio y llevar) -->
+                        <div id="campo-telefono">
+                            <input type="tel" id="telefono-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Tu número de teléfono *">
+                        </div>
+                        
+                        <!-- Dirección (solo para domicilio) -->
+                        <div id="campo-direccion">
+                            <textarea id="direccion-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" rows="2" placeholder="Tu dirección completa *"></textarea>
+                        </div>
+                        
+                        <!-- Número de mesa (solo para restaurante) -->
+                        <div id="campo-mesa" class="hidden">
+                            <input type="number" id="mesa-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Número de mesa (opcional)" min="1">
+                        </div>
+                    </div>
+                    
+                    <button onclick="enviarPorWhatsApp()" class="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-300 flex items-center justify-center text-sm">
+                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                        </svg>
+                        Enviar por WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold mb-4">¡Síguenos en nuestras redes sociales!</h3>
+                <div class="flex justify-center space-x-6">
+                    <!-- Facebook -->
+                    <a href="https://facebook.com/pizzeriadeliciosa" target="_blank" class="bg-blue-600 hover:bg-blue-700 p-3 rounded-full transition duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                    </a>
+                    
+                    <!-- Instagram -->
+                    <a href="https://instagram.com/pizzeriadeliciosa" target="_blank" class="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 p-3 rounded-full transition duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    
+                    <!-- TikTok -->
+                    <a href="https://tiktok.com/@pizzeriadeliciosa" target="_blank" class="bg-black hover:bg-gray-800 p-3 rounded-full transition duration-300 transform hover:scale-110">
+                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="text-center border-t border-gray-600 pt-4">
+                <p>&copy; 2024 Pizzería Deliciosa. Todos los derechos reservados.</p>
+                <p class="text-gray-400 mt-2">📞 Teléfono: (504) 2234-5678 | 📧 Email: info@pizzeriadeliciosa.com</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let carrito = [];
+        let total = 0;
+        let categoriaActual = 'todas';
+        let slideActual = 0;
+        let totalSlides = 0;
+        
+        // Variables para datos dinámicos
+        let datosNegocio = {};
+        let categorias = [];
+        let promociones = [];
+        let productos = [];
+        let opciones = [];
+        
+        // ID del Google Sheets
+        const SHEET_ID = '1Nn0zkOHfkzBEtQXrq6m-5wFMsyJ4ZkyGcUdlKVsNjLA';
+        
+        // URLs de OpenSheets API
+        const API_URLS = {
+            negocio: `https://opensheet.elk.sh/${SHEET_ID}/Negocio`,
+            categorias: `https://opensheet.elk.sh/${SHEET_ID}/Categorias`,
+            promociones: `https://opensheet.elk.sh/${SHEET_ID}/Promociones`,
+            productos: `https://opensheet.elk.sh/${SHEET_ID}/Productos`,
+            opciones: `https://opensheet.elk.sh/${SHEET_ID}/Opciones`
+        };
+
+        // Función principal para cargar todos los datos
+        async function cargarDatosCompletos() {
+            try {
+                mostrarCargando(true);
+                
+                // Cargar todos los datos en paralelo
+                const [negocioData, categoriasData, promocionesData, productosData, opcionesData] = await Promise.all([
+                    fetch(API_URLS.negocio).then(r => r.json()),
+                    fetch(API_URLS.categorias).then(r => r.json()),
+                    fetch(API_URLS.promociones).then(r => r.json()),
+                    fetch(API_URLS.productos).then(r => r.json()),
+                    fetch(API_URLS.opciones).then(r => r.json())
+                ]);
+                
+                // Asignar datos a variables globales
+                datosNegocio = negocioData[0] || {};
+                categorias = categoriasData || [];
+                promociones = promocionesData || [];
+                productos = productosData || [];
+                opciones = opcionesData || [];
+                
+                // Procesar y organizar opciones por producto
+                procesarOpciones();
+                
+                // Renderizar todo el contenido
+                renderizarNegocio();
+                renderizarCategorias();
+                renderizarPromociones();
+                renderizarProductosPorCategorias();
+                
+                mostrarCargando(false);
+                
+            } catch (error) {
+                console.error('Error cargando datos:', error);
+                mostrarError('Error al cargar los datos. Por favor, recarga la página.');
+                mostrarCargando(false);
+            }
+        }
+        
+        // Función para mostrar/ocultar indicador de carga
+        function mostrarCargando(mostrar) {
+            let loader = document.getElementById('loader-principal');
+            if (!loader && mostrar) {
+                loader = document.createElement('div');
+                loader.id = 'loader-principal';
+                loader.className = 'fixed inset-0 bg-white bg-opacity-90 flex items-center justify-center z-50';
+                loader.innerHTML = `
+                    <div class="text-center">
+                        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-red-600 mx-auto mb-4"></div>
+                        <p class="text-gray-600 text-lg">Cargando datos...</p>
+                    </div>
+                `;
+                document.body.appendChild(loader);
+            } else if (loader && !mostrar) {
+                loader.remove();
+            }
+        }
+        
+        // Función para mostrar errores
+        function mostrarError(mensaje) {
+            const error = document.createElement('div');
+            error.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg z-50';
+            error.textContent = mensaje;
+            document.body.appendChild(error);
+            setTimeout(() => error.remove(), 5000);
+        }
+        
+        // Procesar opciones y organizarlas por producto
+        function procesarOpciones() {
+            window.productosOpciones = {};
+            
+            productos.forEach(producto => {
+                const opcionesProducto = opciones.filter(op => op.producto_id == producto.id);
+                
+                if (opcionesProducto.length > 0) {
+                    const tamaños = opcionesProducto.filter(op => op.tipo === 'tamaño');
+                    const complementos = opcionesProducto.filter(op => op.tipo === 'complemento');
+                    
+                    window.productosOpciones[producto.nombre] = {};
+                    
+                    if (tamaños.length > 0) {
+                        window.productosOpciones[producto.nombre].tamaños = tamaños.map(t => ({
+                            nombre: t.nombre,
+                            precio: parseFloat(t.precio) || 0
+                        }));
+                    }
+                    
+                    if (complementos.length > 0) {
+                        window.productosOpciones[producto.nombre].complementos = complementos.map(c => ({
+                            nombre: c.nombre,
+                            precio: parseFloat(c.precio) || 0
+                        }));
+                    }
+                }
+            });
+        }
+        
+        // Renderizar datos del negocio
+        function renderizarNegocio() {
+            // Actualizar título de la página
+            if (datosNegocio.nombre) {
+                document.title = datosNegocio.nombre;
+            }
+            
+            // Actualizar favicon dinámico
+            actualizarFavicon();
+            
+            // Actualizar header
+            const headerTitle = document.querySelector('header h1');
+            const headerSlogan = document.querySelector('header p');
+            const logoContainer = document.getElementById('logo-container');
+            const logoImg = document.getElementById('logo-negocio');
+            
+            if (headerTitle && datosNegocio.nombre) {
+                headerTitle.innerHTML = `🍕 ${datosNegocio.nombre}`;
+            }
+            
+            if (headerSlogan && datosNegocio.slogan) {
+                headerSlogan.textContent = datosNegocio.slogan;
+            }
+            
+            // Mostrar logo si existe
+            if (datosNegocio.logo_url && logoContainer && logoImg) {
+                logoImg.src = datosNegocio.logo_url;
+                logoImg.onerror = function() {
+                    logoContainer.classList.add('hidden');
+                };
+                logoContainer.classList.remove('hidden');
+            }
+            
+            // Actualizar footer con datos de contacto
+            const footerInfo = document.querySelector('footer p:last-child');
+            if (footerInfo && (datosNegocio.telefono || datosNegocio.email)) {
+                footerInfo.innerHTML = `
+                    ${datosNegocio.telefono ? `📞 Teléfono: ${datosNegocio.telefono}` : ''} 
+                    ${datosNegocio.telefono && datosNegocio.email ? ' | ' : ''}
+                    ${datosNegocio.email ? `📧 Email: ${datosNegocio.email}` : ''}
+                `;
+            }
+            
+            // Actualizar enlaces de redes sociales
+            actualizarRedesSociales();
+            
+            // Actualizar número de WhatsApp
+            if (datosNegocio.telefono) {
+                const whatsappBtn = document.querySelector('a[href*="wa.me"]');
+                if (whatsappBtn) {
+                    const numeroLimpio = datosNegocio.telefono.replace(/\D/g, '');
+                    whatsappBtn.href = `https://wa.me/${numeroLimpio}?text=¡Hola! Me gustaría hacer un pedido`;
+                }
+            }
+        }
+        
+        // Actualizar favicon dinámico
+        function actualizarFavicon() {
+            const faviconElement = document.getElementById('favicon');
+            
+            if (datosNegocio.logo_url) {
+                // Usar logo del negocio como favicon
+                faviconElement.href = datosNegocio.logo_url;
+                faviconElement.type = 'image/png';
+            } else {
+                // Usar emoji por defecto
+                faviconElement.href = "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍕</text></svg>";
+                faviconElement.type = 'image/svg+xml';
+            }
+        }
+        
+        // Actualizar enlaces de redes sociales
+        function actualizarRedesSociales() {
+            const redesSociales = [
+                { key: 'facebook', selector: 'a[href*="facebook"]' },
+                { key: 'instagram', selector: 'a[href*="instagram"]' },
+                { key: 'tiktok', selector: 'a[href*="tiktok"]' }
+            ];
+            
+            redesSociales.forEach(red => {
+                const enlace = document.querySelector(red.selector);
+                if (enlace && datosNegocio[red.key]) {
+                    enlace.href = datosNegocio[red.key];
+                }
+            });
+        }
+        
+        // Renderizar categorías dinámicamente
+        function renderizarCategorias() {
+            const contenedorCategorias = document.querySelector('.flex.flex-wrap.gap-2');
+            if (!contenedorCategorias) return;
+            
+            // Limpiar categorías existentes
+            contenedorCategorias.innerHTML = '';
+            
+            // Agregar botón "Todas"
+            const btnTodas = document.createElement('button');
+            btnTodas.onclick = () => filtrarCategoria('todas');
+            btnTodas.className = 'categoria-btn bg-red-600 text-white px-4 py-2 rounded-full font-semibold hover:bg-red-700 transition duration-300';
+            btnTodas.textContent = 'Todas';
+            contenedorCategorias.appendChild(btnTodas);
+            
+            // Agregar categorías dinámicas
+            categorias.forEach(categoria => {
+                const btn = document.createElement('button');
+                btn.onclick = () => filtrarCategoria(categoria.id);
+                btn.className = 'categoria-btn bg-gray-200 text-gray-700 px-4 py-2 rounded-full font-semibold hover:bg-gray-300 transition duration-300';
+                btn.textContent = `${categoria.icono} ${categoria.nombre}`;
+                contenedorCategorias.appendChild(btn);
+            });
+        }
+        
+        // Renderizar promociones dinámicamente
+        function renderizarPromociones() {
+            const carruselContainer = document.getElementById('carrusel-promociones');
+            const indicadoresContainer = carruselContainer.parentElement.querySelector('.absolute.bottom-4');
+            
+            if (!carruselContainer) return;
+            
+            carruselContainer.innerHTML = '';
+            indicadoresContainer.innerHTML = '';
+            
+            totalSlides = promociones.length;
+            
+            promociones.forEach((promocion, index) => {
+                // Crear slide de promoción
+                const slide = document.createElement('div');
+                slide.className = 'w-full flex-shrink-0 relative';
+                
+                const colorInicio = promocion.color_ini || '#ef4444';
+                const colorFin = promocion.color_fin || '#f97316';
+                
+                slide.innerHTML = `
+                    <div class="text-white p-6 md:p-8 rounded-lg" style="background: linear-gradient(to right, ${colorInicio}, ${colorFin})">
+                        <div class="flex flex-col md:flex-row items-center">
+                            <div class="md:w-1/3 mb-4 md:mb-0">
+                                ${promocion.imagen_url ? 
+                                    `<img src="${promocion.imagen_url}" alt="${promocion.titulo}" class="w-24 h-24 md:w-32 md:h-32 mx-auto rounded-full object-cover">` :
+                                    `<div class="text-8xl md:text-9xl text-center">🍕</div>`
+                                }
+                            </div>
+                            <div class="md:w-2/3 md:pl-6 text-center md:text-left">
+                                <h3 class="text-2xl md:text-3xl font-bold mb-2">${promocion.titulo}</h3>
+                                <p class="text-lg mb-4">${promocion.detalle}</p>
+                                ${promocion.ahorro ? 
+                                    `<div class="bg-white text-gray-800 px-4 py-2 rounded-full inline-block font-bold">
+                                        ${promocion.ahorro}
+                                    </div>` : ''
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                carruselContainer.appendChild(slide);
+                
+                // Crear indicador
+                const indicador = document.createElement('button');
+                indicador.onclick = () => irASlide(index);
+                indicador.className = `w-3 h-3 rounded-full bg-white ${index === 0 ? 'bg-opacity-100' : 'bg-opacity-50'} hover:bg-opacity-100 transition duration-300`;
+                indicador.id = `indicador-${index}`;
+                indicadoresContainer.appendChild(indicador);
+            });
+            
+            // Reiniciar carrusel
+            slideActual = 0;
+            actualizarCarrusel();
+        }
+        
+        // Renderizar productos organizados por categorías
+        function renderizarProductosPorCategorias() {
+            const productosContainer = document.getElementById('productos-container');
+            if (!productosContainer) return;
+            
+            productosContainer.innerHTML = '';
+            
+            if (categoriaActual === 'todas') {
+                // Mostrar productos organizados por categorías
+                categorias.forEach(categoria => {
+                    const productosCategoria = productos.filter(p => p.categoria_id == categoria.id);
+                    
+                    if (productosCategoria.length > 0) {
+                        // Crear sección de categoría
+                        const seccionCategoria = document.createElement('div');
+                        seccionCategoria.className = 'mb-12';
+                        seccionCategoria.innerHTML = `
+                            <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                                <span class="text-3xl mr-3">${categoria.icono}</span>
+                                ${categoria.nombre}
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="categoria-${categoria.id}">
+                            </div>
+                        `;
+                        
+                        productosContainer.appendChild(seccionCategoria);
+                        
+                        // Agregar productos a esta categoría
+                        const gridCategoria = document.getElementById(`categoria-${categoria.id}`);
+                        productosCategoria.forEach((producto, index) => {
+                            const productoCard = crearTarjetaProducto(producto, index);
+                            gridCategoria.appendChild(productoCard);
+                        });
+                    }
+                });
+            } else {
+                // Mostrar solo productos de la categoría seleccionada
+                const productosCategoria = productos.filter(p => p.categoria_id == categoriaActual);
+                const categoria = categorias.find(c => c.id == categoriaActual);
+                
+                if (productosCategoria.length > 0) {
+                    const seccionCategoria = document.createElement('div');
+                    seccionCategoria.innerHTML = `
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="text-3xl mr-3">${categoria ? categoria.icono : '🍽️'}</span>
+                            ${categoria ? categoria.nombre : 'Productos'}
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productos-filtrados">
+                        </div>
+                    `;
+                    
+                    productosContainer.appendChild(seccionCategoria);
+                    
+                    const gridFiltrado = document.getElementById('productos-filtrados');
+                    productosCategoria.forEach((producto, index) => {
+                        const productoCard = crearTarjetaProducto(producto, index);
+                        gridFiltrado.appendChild(productoCard);
+                    });
+                }
+            }
+        }
+        
+        // Crear tarjeta de producto
+        function crearTarjetaProducto(producto, index) {
+            const categoria = categorias.find(c => c.id == producto.categoria_id);
+            
+            const productoCard = document.createElement('div');
+            productoCard.className = 'producto-card bg-white rounded-lg shadow-md overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300';
+            
+            productoCard.innerHTML = `
+                <div class="relative h-48">
+                    ${producto.imagen_url ? 
+                        `<img src="${producto.imagen_url}" alt="${producto.nombre}" class="w-full h-full object-cover">` :
+                        `<div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center">
+                            <div class="text-center">
+                                <div class="text-6xl mb-2">${categoria ? categoria.icono : '🍽️'}</div>
+                                <div class="text-sm font-semibold text-gray-700">${producto.nombre}</div>
+                            </div>
+                        </div>`
+                    }
+                </div>
+                <div class="p-4 flex flex-col flex-grow">
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">${producto.nombre.toUpperCase()}</h2>
+                        <p class="text-sm text-gray-600 mb-4 flex-grow">${producto.descripcion}</p>
+                    </div>
+                    <div class="mt-auto pt-4 border-t border-gray-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-lg font-semibold text-gray-900">Desde LPS. ${parseFloat(producto.precio_base).toFixed(2)}</span>
+                        </div>
+                        <div class="flex items-center flex-wrap gap-2">
+                            <label for="quantity-${producto.id}-${index}" class="text-sm font-medium text-gray-700">CANTIDAD:</label>
+                            <input type="number" id="quantity-${producto.id}-${index}" value="1" min="1" class="w-16 px-2 py-1 border border-gray-300 rounded-md text-center">
+                            <button onclick="ordenarProducto('${producto.nombre}', ${producto.precio_base}, 'quantity-${producto.id}-${index}')" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 transition duration-300">ORDENAR</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return productoCard;
+        }
+
+        // Funciones del carrusel
+        function cambiarSlide(direccion) {
+            slideActual += direccion;
+            if (slideActual >= totalSlides) slideActual = 0;
+            if (slideActual < 0) slideActual = totalSlides - 1;
+            actualizarCarrusel();
+        }
+
+        function irASlide(indice) {
+            slideActual = indice;
+            actualizarCarrusel();
+        }
+
+        function actualizarCarrusel() {
+            const carrusel = document.getElementById('carrusel-promociones');
+            const desplazamiento = -slideActual * 100;
+            carrusel.style.transform = `translateX(${desplazamiento}%)`;
+            
+            // Actualizar indicadores
+            for (let i = 0; i < totalSlides; i++) {
+                const indicador = document.getElementById(`indicador-${i}`);
+                if (indicador) {
+                    if (i === slideActual) {
+                        indicador.classList.remove('bg-opacity-50');
+                        indicador.classList.add('bg-opacity-100');
+                    } else {
+                        indicador.classList.remove('bg-opacity-100');
+                        indicador.classList.add('bg-opacity-50');
+                    }
+                }
+            }
+        }
+
+        // Auto-avanzar el carrusel cada 5 segundos
+        setInterval(() => {
+            if (totalSlides > 0) {
+                cambiarSlide(1);
+            }
+        }, 5000);
+
+        function ordenarProducto(nombre, precio, quantityId) {
+            const cantidad = parseInt(document.getElementById(quantityId).value);
+            
+            // Verificar si el producto tiene opciones
+            if (window.productosOpciones && window.productosOpciones[nombre]) {
+                abrirModalOpciones(nombre, precio, cantidad, quantityId);
+            } else {
+                // Agregar directamente si no tiene opciones
+                agregarAlCarritoDirecto(nombre, precio, cantidad, quantityId);
+            }
+        }
+
+        function abrirModalOpciones(nombre, precioBase, cantidad, quantityId) {
+            const opciones = window.productosOpciones[nombre];
+            
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4';
+            modal.id = 'modal-opciones';
+            modal.dataset.nombre = nombre;
+            modal.dataset.precioBase = precioBase;
+            
+            modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+                    <div class="bg-red-600 text-white p-4 flex justify-between items-center">
+                        <h3 class="text-lg font-bold">Personalizar ${nombre}</h3>
+                        <button onclick="cerrarModalOpciones()" class="text-white hover:text-gray-200 text-xl">×</button>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="mb-4 flex items-center space-x-4">
+                            <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                                ${obtenerImagenProducto(nombre)}
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-lg font-semibold">Precio base: LPS. ${precioBase.toFixed(2)}</div>
+                                <div class="flex items-center space-x-2 mt-2">
+                                    <span class="text-sm text-gray-600">Cantidad:</span>
+                                    <button onclick="cambiarCantidadModal(-1)" class="bg-gray-300 hover:bg-gray-400 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">-</button>
+                                    <span id="cantidad-modal" class="text-sm font-medium min-w-[20px] text-center">${cantidad}</span>
+                                    <button onclick="cambiarCantidadModal(1)" class="bg-gray-300 hover:bg-gray-400 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">+</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        ${opciones.tamaños ? `
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-3 text-gray-800">Tamaño:</h4>
+                            <div class="space-y-2">
+                                ${opciones.tamaños.map((tamaño, index) => `
+                                    <label class="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <div class="flex items-center">
+                                            <input type="radio" name="tamaño" value="${index}" ${index === 0 ? 'checked' : ''} class="mr-3">
+                                            <span>${tamaño.nombre}</span>
+                                        </div>
+                                        <span class="font-medium ${tamaño.precio > 0 ? 'text-green-600' : tamaño.precio < 0 ? 'text-red-600' : 'text-gray-600'}">
+                                            ${tamaño.precio > 0 ? '+' : ''}${tamaño.precio === 0 ? 'Incluido' : 'LPS. ' + tamaño.precio.toFixed(2)}
+                                        </span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        ${opciones.complementos ? `
+                        <div class="mb-6">
+                            <h4 class="font-semibold mb-3 text-gray-800">Complementos:</h4>
+                            <div class="space-y-2">
+                                ${opciones.complementos.map((complemento, index) => `
+                                    <label class="flex items-center justify-between p-2 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                                        <div class="flex items-center">
+                                            <input type="checkbox" name="complemento" value="${index}" class="mr-3">
+                                            <span>${complemento.nombre}</span>
+                                        </div>
+                                        <span class="font-medium text-green-600">
+                                            ${complemento.precio === 0 ? 'Gratis' : '+LPS. ' + complemento.precio.toFixed(2)}
+                                        </span>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div class="border-t pt-4">
+                            <div class="flex justify-between items-center mb-4">
+                                <span class="text-lg font-bold">Total:</span>
+                                <span id="precio-total-opciones" class="text-lg font-bold text-red-600">LPS. ${(precioBase * cantidad).toFixed(2)}</span>
+                            </div>
+                            
+                            <div class="flex space-x-3">
+                                <button onclick="cerrarModalOpciones()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition duration-300">
+                                    Cancelar
+                                </button>
+                                <button onclick="confirmarOpcionesProducto('${nombre}', ${precioBase}, ${cantidad}, '${quantityId}')" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-300">
+                                    Agregar al carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+            
+            // Agregar event listeners para actualizar precio
+            const inputs = modal.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+            inputs.forEach(input => {
+                input.addEventListener('change', () => actualizarPrecioOpciones(nombre, precioBase));
+            });
+            
+            // Actualizar precio inicial
+            actualizarPrecioOpciones(nombre, precioBase);
+        }
+
+        function cambiarCantidadModal(cambio) {
+            const cantidadElement = document.getElementById('cantidad-modal');
+            if (!cantidadElement) return;
+            
+            let cantidadActual = parseInt(cantidadElement.textContent);
+            cantidadActual += cambio;
+            if (cantidadActual < 1) cantidadActual = 1;
+            
+            cantidadElement.textContent = cantidadActual;
+            
+            // Obtener datos del modal actual usando los atributos data guardados
+            const modalElement = document.getElementById('modal-opciones');
+            if (modalElement) {
+                const nombre = modalElement.dataset.nombre;
+                const precioBase = parseFloat(modalElement.dataset.precioBase);
+                
+                // Ahora la función actualizarPrecioOpciones siempre lee la cantidad del DOM
+                actualizarPrecioOpciones(nombre, precioBase);
+            }
+        }
+
+        function actualizarPrecioOpciones(nombre, precioBase, cantidadParametro = null) {
+            // Obtener la cantidad actual del modal, no del parámetro
+            const cantidadElement = document.getElementById('cantidad-modal');
+            const cantidad = cantidadElement ? parseInt(cantidadElement.textContent) : (cantidadParametro || 1);
+            
+            const opciones = window.productosOpciones[nombre];
+            let precioUnitario = precioBase;
+            
+            // Calcular precio del tamaño seleccionado
+            const tamañoSeleccionado = document.querySelector('input[name="tamaño"]:checked');
+            if (tamañoSeleccionado && opciones.tamaños) {
+                const indiceTamaño = parseInt(tamañoSeleccionado.value);
+                const incrementoTamaño = opciones.tamaños[indiceTamaño].precio;
+                precioUnitario = precioBase + incrementoTamaño;
+            }
+            
+            // Calcular precio de complementos seleccionados
+            const complementosSeleccionados = document.querySelectorAll('input[name="complemento"]:checked');
+            let totalComplementos = 0;
+            complementosSeleccionados.forEach(complemento => {
+                const indiceComplemento = parseInt(complemento.value);
+                if (opciones.complementos && opciones.complementos[indiceComplemento]) {
+                    totalComplementos += opciones.complementos[indiceComplemento].precio;
+                }
+            });
+            
+            precioUnitario += totalComplementos;
+            const precioTotal = precioUnitario * cantidad;
+            
+            const precioTotalElement = document.getElementById('precio-total-opciones');
+            if (precioTotalElement) {
+                precioTotalElement.textContent = `LPS. ${precioTotal.toFixed(2)}`;
+            }
+        }
+
+        function confirmarOpcionesProducto(nombre, precioBase, cantidadOriginal, quantityId) {
+            // Obtener la cantidad actual del modal
+            const cantidadElement = document.getElementById('cantidad-modal');
+            const cantidad = cantidadElement ? parseInt(cantidadElement.textContent) : cantidadOriginal;
+            
+            const opciones = window.productosOpciones[nombre];
+            let precioUnitario = precioBase;
+            let nombreFinal = nombre;
+            let detallesOpciones = [];
+            
+            // Obtener tamaño seleccionado
+            const tamañoSeleccionado = document.querySelector('input[name="tamaño"]:checked');
+            if (tamañoSeleccionado && opciones.tamaños) {
+                const indiceTamaño = parseInt(tamañoSeleccionado.value);
+                const tamaño = opciones.tamaños[indiceTamaño];
+                precioUnitario = precioBase + tamaño.precio; // Reemplazar, no sumar
+                detallesOpciones.push(tamaño.nombre);
+            }
+            
+            // Obtener complementos seleccionados
+            const complementosSeleccionados = document.querySelectorAll('input[name="complemento"]:checked');
+            const complementosTexto = [];
+            let totalComplementos = 0;
+            
+            complementosSeleccionados.forEach(complemento => {
+                const indiceComplemento = parseInt(complemento.value);
+                if (opciones.complementos && opciones.complementos[indiceComplemento]) {
+                    const comp = opciones.complementos[indiceComplemento];
+                    totalComplementos += comp.precio;
+                    complementosTexto.push(comp.nombre);
+                }
+            });
+            
+            precioUnitario += totalComplementos;
+            
+            if (complementosTexto.length > 0) {
+                detallesOpciones.push(`+ ${complementosTexto.join(', ')}`);
+            }
+            
+            // Crear nombre completo del producto
+            if (detallesOpciones.length > 0) {
+                nombreFinal += ` (${detallesOpciones.join(' | ')})`;
+            }
+            
+            // Agregar al carrito
+            const subtotal = precioUnitario * cantidad;
+            
+            carrito.push({
+                id: Date.now() + Math.random(),
+                nombre: nombreFinal,
+                precio: precioUnitario,
+                cantidad: cantidad,
+                subtotal: subtotal,
+                imagen: obtenerImagenProducto(nombre)
+            });
+            
+            actualizarCarrito();
+            mostrarNotificacion(`${nombreFinal} agregado al carrito`);
+            
+            // Resetear cantidad y cerrar modal
+            document.getElementById(quantityId).value = 1;
+            cerrarModalOpciones();
+        }
+
+        function agregarAlCarritoDirecto(nombre, precio, cantidad, quantityId) {
+            const subtotal = precio * cantidad;
+            
+            // Buscar si el producto ya existe en el carrito
+            const productoExistente = carrito.find(item => item.nombre === nombre);
+            
+            if (productoExistente) {
+                productoExistente.cantidad += cantidad;
+                productoExistente.subtotal += subtotal;
+            } else {
+                carrito.push({
+                    id: Date.now() + Math.random(),
+                    nombre: nombre,
+                    precio: precio,
+                    cantidad: cantidad,
+                    subtotal: subtotal,
+                    imagen: obtenerImagenProducto(nombre)
+                });
+            }
+            
+            actualizarCarrito();
+            mostrarNotificacion(`${nombre} agregado al carrito`);
+            
+            // Resetear cantidad a 1
+            document.getElementById(quantityId).value = 1;
+        }
+
+        function cerrarModalOpciones() {
+            const modal = document.getElementById('modal-opciones');
+            if (modal) {
+                document.body.removeChild(modal);
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        function actualizarCarrito() {
+            const carritoFlotante = document.getElementById('carrito-flotante');
+            const contadorCarrito = document.getElementById('contador-carrito');
+            const itemsCarritoModal = document.getElementById('items-carrito-modal');
+            const totalCarritoModal = document.getElementById('total-carrito-modal');
+            const carritoVacio = document.getElementById('carrito-vacio');
+            const footerCarrito = document.getElementById('footer-carrito');
+            
+            // Calcular total de items
+            const totalItems = carrito.reduce((sum, item) => sum + item.cantidad, 0);
+            
+            if (carrito.length === 0) {
+                carritoFlotante.classList.add('hidden');
+                carritoVacio.classList.remove('hidden');
+                footerCarrito.classList.add('hidden');
+                return;
+            }
+            
+            // Mostrar botón flotante
+            carritoFlotante.classList.remove('hidden');
+            contadorCarrito.textContent = totalItems;
+            
+            // Actualizar modal
+            carritoVacio.classList.add('hidden');
+            footerCarrito.classList.remove('hidden');
+            itemsCarritoModal.innerHTML = '';
+            total = 0;
+            
+            carrito.forEach((item) => {
+                total += item.subtotal;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'bg-gray-50 rounded-lg p-3';
+                itemDiv.innerHTML = `
+                    <div class="flex items-start space-x-3">
+                        <div class="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                            ${item.imagen}
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-medium text-sm">${item.nombre}</h4>
+                                <button onclick="eliminarDelCarrito('${item.id}')" class="text-red-600 hover:text-red-800 text-lg ml-2">×</button>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="cambiarCantidad('${item.id}', -1)" class="bg-gray-300 hover:bg-gray-400 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">-</button>
+                                    <span class="text-sm font-medium">${item.cantidad}</span>
+                                    <button onclick="cambiarCantidad('${item.id}', 1)" class="bg-gray-300 hover:bg-gray-400 text-gray-700 w-6 h-6 rounded-full flex items-center justify-center text-sm">+</button>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs text-gray-600">LPS. ${item.precio.toFixed(2)} c/u</div>
+                                    <div class="font-semibold">LPS. ${item.subtotal.toFixed(2)}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                itemsCarritoModal.appendChild(itemDiv);
+            });
+            
+            totalCarritoModal.textContent = `LPS. ${total.toFixed(2)}`;
+        }
+
+        function cambiarCantidad(itemId, cambio) {
+            const item = carrito.find(producto => producto.id == itemId);
+            if (item) {
+                item.cantidad += cambio;
+                if (item.cantidad <= 0) {
+                    eliminarDelCarrito(itemId);
+                    return;
+                }
+                item.subtotal = item.precio * item.cantidad;
+                actualizarCarrito();
+            }
+        }
+
+        function eliminarDelCarrito(itemId) {
+            carrito = carrito.filter(item => item.id != itemId);
+            actualizarCarrito();
+            
+            // Si el carrito queda vacío, cerrar el modal
+            if (carrito.length === 0) {
+                setTimeout(() => {
+                    cerrarModal();
+                }, 500);
+            }
+        }
+
+        function vaciarCarrito() {
+            carrito = [];
+            actualizarCarrito();
+            cerrarModal();
+            mostrarNotificacion('Carrito vaciado');
+        }
+
+        function abrirModal() {
+            document.getElementById('modal-carrito').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal-carrito').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        function obtenerImagenProducto(nombre) {
+            // Extraer el nombre base del producto (sin opciones)
+            const nombreBase = nombre.split(' (')[0];
+            
+            // Buscar el producto en los datos cargados
+            const producto = productos.find(p => p.nombre === nombreBase);
+            
+            if (producto && producto.imagen_url) {
+                return `<img src="${producto.imagen_url}" alt="${producto.nombre}" class="w-full h-full object-cover rounded">`;
+            }
+            
+            // Buscar la categoría del producto para usar su icono
+            if (producto) {
+                const categoria = categorias.find(c => c.id == producto.categoria_id);
+                const icono = categoria ? categoria.icono : '🍽️';
+                return `<div class="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 flex items-center justify-center text-2xl">${icono}</div>`;
+            }
+            
+            // Fallback por defecto
+            return '<div class="w-full h-full bg-gray-200 flex items-center justify-center text-2xl">🍽️</div>';
+        }
+
+        function actualizarCamposFormulario() {
+            const tipoPedido = document.getElementById('tipo-pedido').value;
+            const campoTelefono = document.getElementById('campo-telefono');
+            const campoDireccion = document.getElementById('campo-direccion');
+            const campoMesa = document.getElementById('campo-mesa');
+            
+            // Resetear campos
+            campoTelefono.classList.remove('hidden');
+            campoDireccion.classList.add('hidden');
+            campoMesa.classList.add('hidden');
+            
+            if (tipoPedido === 'domicilio') {
+                campoDireccion.classList.remove('hidden');
+            } else if (tipoPedido === 'llevar') {
+                // Solo teléfono visible
+            } else if (tipoPedido === 'restaurante') {
+                campoTelefono.classList.add('hidden');
+                campoMesa.classList.remove('hidden');
+            }
+        }
+
+        function validarFormulario() {
+            const tipoPedido = document.getElementById('tipo-pedido').value;
+            const nombre = document.getElementById('nombre-cliente').value.trim();
+            const telefono = document.getElementById('telefono-cliente').value.trim();
+            const direccion = document.getElementById('direccion-cliente').value.trim();
+            
+            // Nombre siempre es obligatorio
+            if (!nombre) {
+                alert('Por favor ingresa tu nombre');
+                return false;
+            }
+            
+            // Validaciones según tipo de pedido
+            if (tipoPedido === 'domicilio') {
+                if (!telefono) {
+                    alert('Por favor ingresa tu teléfono para el envío a domicilio');
+                    return false;
+                }
+                if (!direccion) {
+                    alert('Por favor ingresa tu dirección para el envío a domicilio');
+                    return false;
+                }
+            } else if (tipoPedido === 'llevar') {
+                if (!telefono) {
+                    alert('Por favor ingresa tu teléfono para el pedido para llevar');
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        function enviarPorWhatsApp() {
+            if (carrito.length === 0) {
+                alert('Tu carrito está vacío');
+                return;
+            }
+            
+            if (!validarFormulario()) {
+                return;
+            }
+            
+            const tipoPedido = document.getElementById('tipo-pedido').value;
+            const nombre = document.getElementById('nombre-cliente').value.trim();
+            const telefono = document.getElementById('telefono-cliente').value.trim();
+            const direccion = document.getElementById('direccion-cliente').value.trim();
+            const mesa = document.getElementById('mesa-cliente').value.trim();
+            
+            let mensaje = `🍕 *PEDIDO ${datosNegocio.nombre ? datosNegocio.nombre.toUpperCase() : 'PIZZERÍA DELICIOSA'}* 🍕\n\n`;
+            
+            // Información del cliente
+            mensaje += '*DATOS DEL CLIENTE:*\n';
+            mensaje += `👤 Nombre: ${nombre}\n`;
+            
+            if (tipoPedido === 'domicilio') {
+                mensaje += `🚚 Tipo: Envío a domicilio\n`;
+                mensaje += `📞 Teléfono: ${telefono}\n`;
+                mensaje += `📍 Dirección: ${direccion}\n`;
+            } else if (tipoPedido === 'llevar') {
+                mensaje += `🥡 Tipo: Para llevar\n`;
+                mensaje += `📞 Teléfono: ${telefono}\n`;
+            } else if (tipoPedido === 'restaurante') {
+                mensaje += `🍽️ Tipo: Comer en restaurante\n`;
+                if (mesa) {
+                    mensaje += `🪑 Mesa: ${mesa}\n`;
+                }
+            }
+            
+            mensaje += '\n*PRODUCTOS:*\n';
+            
+            carrito.forEach(item => {
+                mensaje += `• ${item.nombre}\n`;
+                mensaje += `  Cantidad: ${item.cantidad}\n`;
+                mensaje += `  Precio unitario: LPS. ${item.precio.toFixed(2)}\n`;
+                mensaje += `  Subtotal: LPS. ${item.subtotal.toFixed(2)}\n\n`;
+            });
+            
+            mensaje += `*TOTAL: LPS. ${total.toFixed(2)}*\n\n`;
+            mensaje += '¡Gracias por tu pedido! 😊';
+            
+            // Usar número del negocio o fallback
+            const numeroWhatsApp = datosNegocio.telefono ? datosNegocio.telefono.replace(/\D/g, '') : '50493593126';
+            const url = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(mensaje)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        function filtrarCategoria(categoria) {
+            categoriaActual = categoria;
+            const botones = document.querySelectorAll('.categoria-btn');
+            
+            // Actualizar botones
+            botones.forEach(btn => {
+                btn.classList.remove('bg-red-600', 'text-white');
+                btn.classList.add('bg-gray-200', 'text-gray-700');
+            });
+            
+            event.target.classList.remove('bg-gray-200', 'text-gray-700');
+            event.target.classList.add('bg-red-600', 'text-white');
+            
+            // Re-renderizar productos
+            renderizarProductosPorCategorias();
+        }
+
+        function mostrarNotificacion(mensaje) {
+            const notificacion = document.createElement('div');
+            notificacion.className = 'fixed top-4 right-4 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg z-50 transition-opacity duration-300';
+            notificacion.textContent = mensaje;
+            document.body.appendChild(notificacion);
+            
+            setTimeout(() => {
+                notificacion.style.opacity = '0';
+                setTimeout(() => {
+                    if (document.body.contains(notificacion)) {
+                        document.body.removeChild(notificacion);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Cerrar modal al hacer clic fuera
+        document.getElementById('modal-carrito').addEventListener('click', function(e) {
+            if (e.target === this) {
+                cerrarModal();
+            }
+        });
+
+        // Inicializar aplicación
+        document.addEventListener('DOMContentLoaded', function() {
+            cargarDatosCompletos();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97fa4113b42f45b5',t:'MTc1Nzk2MTY0NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
