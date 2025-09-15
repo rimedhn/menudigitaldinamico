@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="negocio-nombre">Cargando...</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-red-600 text-white py-4 mb-6">
+        <div class="container mx-auto px-4">
+            <img id="negocio-logo" class="mx-auto h-20 mb-2" alt="Logo"/>
+            <h1 id="negocio-nombre" class="text-2xl md:text-3xl font-bold text-center"></h1>
+            <p id="negocio-slogan" class="text-center mt-2 text-red-100"></p>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+        <!-- Carrusel de Promociones -->
+        <div id="promociones-carrusel" class="mb-8"></div>
+
+        <!-- Filtros de categorías -->
+        <div id="categorias-filtros" class="mb-8"></div>
+
+        <!-- Grid de productos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productos-grid"></div>
+    </div>
+
+    <!-- Botón flotante del carrito -->
+    <button id="carrito-flotante" onclick="abrirModal()" class="fixed bottom-20 right-4 bg-red-600 text-white p-4 rounded-full shadow-lg hover:bg-red-700 transition duration-300 z-40 hidden">
+        <div class="relative">
+            🛒
+            <span id="contador-carrito" class="absolute -top-5 -right-5 bg-yellow-400 text-black text-xs rounded-full w-6 h-6 flex items-center justify-center font-bold">0</span>
+        </div>
+    </button>
+
+    <!-- Botón de WhatsApp -->
+    <a id="whatsapp-btn" href="#" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300 z-40">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.76-1.653-2.057-.173-.297-.018-.457.13-.605.134-.134.297-.349.446-.524.149-.174.199-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.206-.242-.58-.487-.501-.669-.51-.173-.008-.371-.01-.57-.01-.197 0-.519.074-.792.372-.273.297-1.04 1.017-1.04 2.475 0 1.457 1.067 2.867 1.216 3.065.149.198 2.103 3.217 5.105 4.377.714.245 1.27.392 1.704.501.715.181 1.367.156 1.882.095.575-.068 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        </svg>
+    </a>
+
+    <!-- Modal del carrito -->
+    <div id="modal-carrito" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] flex flex-col">
+            <!-- Header del modal -->
+            <div class="bg-red-600 text-white p-3 flex justify-between items-center flex-shrink-0">
+                <h3 class="text-lg font-bold">🛒 Tu Pedido</h3>
+                <div class="flex items-center space-x-2">
+                    <button onclick="vaciarCarrito()" class="bg-red-700 hover:bg-red-800 px-3 py-1 rounded text-sm transition duration-300">Vaciar</button>
+                    <button onclick="cerrarModal()" class="bg-red-700 hover:bg-red-800 px-3 py-1 rounded text-sm transition duration-300">Cerrar</button>
+                </div>
+            </div>
+            <!-- Contenido del carrito (scrollable) -->
+            <div class="p-4 flex-1 overflow-y-auto">
+                <div id="items-carrito-modal" class="space-y-3 mb-4"></div>
+                <div id="carrito-vacio" class="text-center py-8 text-gray-500">Tu carrito está vacío</div>
+            </div>
+            <!-- Footer del modal (fixed) -->
+            <div id="footer-carrito" class="border-t p-3 flex-shrink-0 hidden">
+                <div class="flex justify-between items-center text-base font-bold mb-3">
+                    <span>Total:</span>
+                    <span id="total-carrito-modal">LPS. 0.00</span>
+                </div>
+                <!-- Formulario de datos del cliente -->
+                <div class="mb-3 space-y-2">
+                    <!-- Tipo de pedido -->
+                    <select id="tipo-pedido" onchange="actualizarCamposFormulario()" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm">
+                        <option value="domicilio">🚚 Envío a domicilio</option>
+                        <option value="llevar">🥡 Para llevar</option>
+                        <option value="restaurante">🍽️ Comer en restaurante</option>
+                    </select>
+                    <!-- Nombre -->
+                    <input type="text" id="nombre-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Tu nombre">
+                    <!-- Teléfono -->
+                    <div id="campo-telefono">
+                        <input type="tel" id="telefono-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Tu teléfono">
+                    </div>
+                    <!-- Dirección -->
+                    <div id="campo-direccion">
+                        <textarea id="direccion-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" rows="2" placeholder="Dirección de entrega"></textarea>
+                    </div>
+                    <!-- Mesa -->
+                    <div id="campo-mesa" class="hidden">
+                        <input type="number" id="mesa-cliente" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 text-sm" placeholder="Número de mesa">
+                    </div>
+                </div>
+                <button onclick="enviarPorWhatsApp()" class="w-full px-4 py-2 bg-green-500 text-white font-semibold rounded-md hover:bg-green-600 transition duration-300 flex items-center justify-center">
+                    <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.76-1.653-2.057-.173-.297-.018-.457.13-.605.134-.134.297-.349.446-.524.149-.174.199-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.206-.242-.58-.487-.501-.669-.51-.173-.008-.371-.01-.57-.01-.197 0-.519.074-.792.372-.273.297-1.04 1.017-1.04 2.475 0 1.457 1.067 2.867 1.216 3.065.149.198 2.103 3.217 5.105 4.377.714.245 1.27.392 1.704.501.715.181 1.367.156 1.882.095.575-.068 1.758-.719 2.006-1.413.248-.694.248-1.288.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+                    </svg>
+                    Enviar por WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold mb-4">¡Síguenos en nuestras redes sociales!</h3>
+                <div class="flex justify-center space-x-6" id="redes-sociales"></div>
+            </div>
+            <div class="text-center border-t border-gray-600 pt-4">
+                <p id="negocio-copyright"></p>
+                <p class="text-gray-400 mt-2" id="negocio-contacto"></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app-datos.js"></script>
+</body>
+</html>
