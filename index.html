@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="negocio-nombre"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header -->
+    <header class="bg-red-600 text-white py-4 mb-6">
+        <div class="container mx-auto px-4">
+            <img id="negocio-logo" class="mx-auto h-20 mb-2"/>
+            <h1 id="negocio-nombre" class="text-2xl md:text-3xl font-bold text-center"></h1>
+            <p id="negocio-slogan" class="text-center mt-2 text-red-100"></p>
+        </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8">
+        <!-- Promociones -->
+        <div id="promociones-carrusel" class="mb-8"></div>
+
+        <!-- Filtros de categorías -->
+        <div id="categorias-filtros" class="mb-8"></div>
+
+        <!-- Grid de productos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productos-grid"></div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-bold mb-4">¡Síguenos en nuestras redes sociales!</h3>
+                <div class="flex justify-center space-x-6" id="redes-sociales"></div>
+            </div>
+            <div class="text-center border-t border-gray-600 pt-4">
+                <p id="negocio-copyright"></p>
+                <p class="text-gray-400 mt-2" id="negocio-contacto"></p>
+            </div>
+        </div>
+    </footer>
+    <script src="app-datos.js"></script>
+</body>
+</html>
